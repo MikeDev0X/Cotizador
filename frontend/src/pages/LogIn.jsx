@@ -25,7 +25,7 @@ function LogIn() {
         </form>
       </div>
       <footer>
-        <span>Copyright© 2023 Company. Todos los derechos reservados.</span>
+        <span>Copyright© 2023 Hit Médica. Todos los derechos reservados.</span>
       </footer>
     </div>
   )

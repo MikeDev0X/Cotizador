@@ -16,6 +16,7 @@ header.header {
 }
 
 header.header img {
+    aspect-ratio: 1/1;
     width: 100%;
     max-width: 50px;
 }
@@ -26,8 +27,8 @@ div.logIn {
     justify-content: center;
     gap: 1rem;
     /* width: 100%;
-    max-width: 400px; */
-    padding: 1.3rem 1.5rem 1.8rem 1.5rem;
+    max-width: 350px; */
+    padding: 2rem 2.3rem 2.5rem 2.3rem;
     border: 1px solid #e4e4e7;
     border-radius: .75rem;
     -webkit-border-radius: .75rem;
@@ -56,7 +57,7 @@ fieldset.formGroup>label {
 }
 
 input {
-    padding: 0.3rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid #e4e4e7;
     border-radius: .375rem;
     -webkit-border-radius: .375rem;
@@ -67,6 +68,7 @@ input {
     color: rgb(113, 113, 121);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
     transition: all 0.2s ease-in-out;
+    width: 18rem;
 }
 
 input:focus {
@@ -86,4 +88,8 @@ footer {
     width: 100%;
     border-top: 1px solid #e4e4e7;
     background-color: var(--gray-bg);
+}
+
+Button {
+    padding: 0.65rem 1rem;
 }
