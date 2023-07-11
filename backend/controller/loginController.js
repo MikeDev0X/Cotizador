@@ -1,25 +1,24 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/jwt');
 const mysql = require('mysql');
-const mysqlConfig = require('../helpers/mysql-config');
+const mysqlConfig = require('../helpers/mysql-config.js');
 const conexion = mysql.createConnection(mysqlConfig);
-const crypto = require('crypto');
 
 module.exports.login = (req, res) => {
 
     const name = req.body.name;
-    const password_ = req.body.password_;
+    const password = req.body.password;
 
-    const sql = `SELECT idUser FROM Admin WHERE name = ?`
+    const sql = `SELECT idAdmin FROM Admin WHERE name = ?`
         //const sql2 = `SELECT SHA2(contrasena,224) FROM usuario WHERE nickname=?`
-    const sql2 = `SELECT password_ FROM Admin WHERE name = ? `
+    const sql2 = `SELECT password FROM Admin WHERE name = ? `
         //const sql3 = `SELECT contrasena FROM usuario WHERE contrasena = SHA2(?,224)`
 
-    let idUser;
+    let idAdmin;
     let resultName;
     let resultPassword;
 
-    let mensaje = 'User or password updated' //mensaje updated
+    let mensaje = 'login failed' //mensaje updated
     let token = '';
 
     const payload = {
@@ -29,7 +28,7 @@ module.exports.login = (req, res) => {
 
     console.log(req.body);
 
-    function Fun(pw) {
+    function Fun(pw){
 
         conexion.query(sql, [name], (error, results) => {
             if (error)
@@ -39,37 +38,29 @@ module.exports.login = (req, res) => {
                 if (results[0] != undefined) {
 
                     resultName = results[0];
-                    idUser = resultName.idUser;
+                    idAdmin = resultName.idAdmin;
 
-                    conexion.query(sql2, [name], (error, results2, fields) => {
+                    conexion.query(sql2, [name], (error, results2) => {
 
                         if (error)
-                            
                             res.send(error);
+
                         else {
-
-                            resultPassword = results2[0].password_;
-
-                            let pwd = pw;
-                            pwd = crypto.createHash('sha224')
-                                .update(pwd)
-                                .digest('hex');
+                            resultPassword = results2[0].password;
 
                             if (resultName != undefined) {
                                 console.log(resultPassword);
 
-                                if (resultPassword === pwd) {
+                                if (resultPassword === pw) {
                                     token = jwt.sign(payload, config.key, { expiresIn: 7200 })
                                     mensaje = 'Authenticated user'
-
                                 }
                             }
                         }
 
                         res.json({
                             mensaje,
-                            token,
-                            idUser
+                            token
                         })
                     })
 
@@ -83,5 +74,5 @@ module.exports.login = (req, res) => {
         })
     }
 
-    Fun(password_);
+    Fun(password);
 }

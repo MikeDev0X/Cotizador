@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/jwt');
 /////////
 const mysql = require('mysql');
-const mysqlConfig = require('../helpers/mysql-config');
+const mysqlConfig = require('../helpers/mysql-config.js');
 const conexion = mysql.createConnection(mysqlConfig);
 
 
