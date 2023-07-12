@@ -4,6 +4,7 @@ import Button from '../components/Buttons';
 import styles from './LogIn.module.css';
 import {urlLocal} from '../../constants';
 
+
 function LogIn() {
 
   const [admin, setAdmin] = useState('');
@@ -80,7 +81,7 @@ function LogIn() {
       </div>
 
       <footer>
-        <span>Copyright© 2023 Company. Todos los derechos reservados.</span>
+        <span>Copyright© 2023 Hit Médica. Todos los derechos reservados.</span>
       </footer>
 
     </div>

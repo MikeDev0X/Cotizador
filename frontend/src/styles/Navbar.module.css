@@ -1,0 +1,32 @@
+nav.navbar {
+    border-bottom: 1px solid #e4e4e7;
+}
+
+ul.navbarContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0.75rem;
+    list-style: none;
+}
+
+ul.navbarContainer li.navbarItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+ul.navbarContainer li.navbarItem a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+ul.navbarContainer li.navbarItem img {
+    aspect-ratio: 1/1;
+    width: 100%;
+    max-width: 35px;
+}
