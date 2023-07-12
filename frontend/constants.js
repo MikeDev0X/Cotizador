@@ -1,0 +1,1 @@
+export const urlLocal = 'http://localhost:4000/';
