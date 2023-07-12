@@ -1,3 +1,7 @@
+div.container {
+    padding: 0.5rem 1rem;
+}
+
 a {
     color: #18181B;
     text-decoration: none;
@@ -8,4 +12,36 @@ a {
 
 a:hover {
     text-decoration: underline;
+}
+
+form.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+}
+
+fieldset.formGroup {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+fieldset.formGroup legend.formGroupLegend {
+    font-size: 1.5rem;
+    font-weight: 650;
+    color: #18181B;
+}
+
+fieldset.formGroup:nth-child(2) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+fieldset.formGroup>label {
+    font-weight: 600;
 }
