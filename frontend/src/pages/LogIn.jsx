@@ -1,6 +1,6 @@
 import logo from '../assets/logo.png'
 import Button from '../components/Buttons'
-import styles from './LogIn.module.css'
+import styles from '../styles/LogIn.module.css'
 
 function LogIn() {
   return (
@@ -25,7 +25,7 @@ function LogIn() {
         </form>
       </div>
       <footer>
-        <span>Copyright© 2023 Company. Todos los derechos reservados.</span>
+        <span>Copyright© 2023 Hit Médica. Todos los derechos reservados.</span>
       </footer>
     </div>
   )
