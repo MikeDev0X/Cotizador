@@ -1,8 +1,10 @@
 div.container {
     padding: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: 60% 40%;
 }
 
-a {
+a.link {
     color: #18181B;
     text-decoration: none;
     font-size: 1.2rem;
@@ -10,7 +12,7 @@ a {
     transition: all 0.2s ease-in-out;
 }
 
-a:hover {
+a.link:hover {
     text-decoration: underline;
 }
 
@@ -19,6 +21,7 @@ form.form {
     flex-direction: column;
     justify-content: flex-end;
     gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 fieldset.formGroup {
@@ -30,10 +33,11 @@ fieldset.formGroup {
     gap: 1rem;
 }
 
-fieldset.formGroup legend.formGroupLegend {
+fieldset.formGroup legend.legend {
     font-size: 1.5rem;
     font-weight: 650;
     color: #18181B;
+    margin-bottom: 1rem;
 }
 
 fieldset.formGroup:nth-child(2) {
@@ -42,6 +46,136 @@ fieldset.formGroup:nth-child(2) {
     align-items: flex-start;
 }
 
-fieldset.formGroup>label {
+fieldset.formGroup label.label {
     font-weight: 600;
+    width: 7.5rem;
+}
+
+div.inputGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+select.select,
+input.input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e4e4e7;
+    border-radius: .375rem;
+    -webkit-border-radius: .375rem;
+    -moz-border-radius: .375rem;
+    -ms-border-radius: .375rem;
+    -o-border-radius: .375rem;
+    font-size: 1rem;
+    color: #18181B;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+    transition: all 0.2s ease-in-out;
+    width: 18rem;
+}
+
+select.select,
+input.input::placeholder {
+    color: rgb(113, 113, 121);
+}
+
+select.select:focus {
+    outline: none;
+    border: 1px solid rgb(113, 113, 121);
+    color: #18181B;
+}
+
+input.input:focus {
+    outline: none;
+    border: 1px solid rgb(113, 113, 121);
+    color: #18181B;
+    caret-color: #18181B;
+}
+
+textarea.textarea {
+    cursor: default;
+    resize: none;
+    border: 1px solid #e4e4e7;
+    border-radius: .375rem;
+    -webkit-border-radius: .375rem;
+    -moz-border-radius: .375rem;
+    -ms-border-radius: .375rem;
+    -o-border-radius: .375rem;
+    font-size: 1rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+    padding: 0.5rem 0.75rem;
+    width: 18rem;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+}
+
+textarea::placeholder {
+    color: #18181B;
+}
+
+div.tableContainer {
+    margin-top: 2rem;
+}
+
+table.table {
+    border-collapse: collapse;
+}
+
+table.table caption.caption {
+    font-size: 1.5rem;
+    font-weight: 650;
+    color: #18181B;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+table.table thead th {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #18181B;
+    text-align: left;
+}
+
+/* SUMMARY SECTION */
+
+div.divider:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+div.divider:nth-child(2) h2 {
+    font-size: 1.75rem;
+    font-weight: 650;
+    color: #18181B;
+}
+
+/* div.divider:nth-child(2) {
+    border: 1px solid var(--silver);
+    background-color: var(--gray-bg);
+    border-radius: .75rem;
+    -webkit-border-radius: .75rem;
+    -moz-border-radius: .75rem;
+    -ms-border-radius: .75rem;
+    -o-border-radius: .75rem;
+} */
+
+div.divider:nth-child(2) div.paper {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: white;
+    border-radius: .75rem;
+    height: 80%;
+    width: 70%;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
 }

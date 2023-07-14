@@ -13,18 +13,18 @@ function LogIn() {
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
             <label htmlFor="user">Usuario</label>
-            <input type="text" id='user' name="user" placeholder="leomjs9774" required />
+            <input type="text" className={styles.input} id='user' name="user" placeholder="leomjs9774" required />
           </fieldset>
 
           <fieldset className={styles.formGroup}>
             <label htmlFor="password">Contraseña</label>
-            <input type="password" id='password' name="password" placeholder="••••••••" required />
+            <input type="password" className={styles.input} id='password' name="password" placeholder="••••••••" required />
           </fieldset>
 
           <Button type="submit" text="Iniciar sesión" variant="default" />
         </form>
       </div>
-      <footer>
+      <footer className={styles.footer}>
         <span>Copyright© 2023 Hit Médica. Todos los derechos reservados.</span>
       </footer>
     </div>
