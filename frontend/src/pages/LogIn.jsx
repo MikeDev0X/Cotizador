@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { urlLocal } from '../../constants';
 import logo from '../assets/logo.png';
 import Button from '../components/Buttons';
-import styles from './LogIn.module.css';
+import styles from '../styles/LogIn.module.css';
 
 function LogIn() {
 
