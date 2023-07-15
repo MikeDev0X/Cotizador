@@ -1,6 +1,23 @@
 import { Link } from 'react-router-dom';
 import styles from '../styles/Quotation.module.css';
+import { useState } from 'react';
+
+
 function Quotation() {
+  const [name, setName] = useState(''); // client's name
+  const [equipments, setEquipments] = useState([]); // products names
+  const [description, setDescription] = useState([]); // products descriptions
+
+  
+
+
+
+
+
+
+
+
+
   return (
     <div className={styles.container}>
       <header>

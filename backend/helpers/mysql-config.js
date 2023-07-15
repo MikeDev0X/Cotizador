@@ -1,7 +1,7 @@
 const config = {
     
     connectionLimit : 100,
-    database : 'prosesadb',
+    database : 'hitmedicadb',
     host: 'localhost', //db-meta.coikvaadq6ut.us-east-1.rds.amazonaws.com
     user : 'root', //admin
     debug: 'false'

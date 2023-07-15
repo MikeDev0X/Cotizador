@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import logo from '../assets/logo.png';
 import Button from '../components/Buttons';
-import styles from './LogIn.module.css';
+import styles from '../styles/LogIn.module.css';
 import {urlLocal} from '../../constants';
+import { useNavigate } from 'react-router-dom';
 
 
 function LogIn() {
 
   const [admin, setAdmin] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleAdmin = (e) => {
     setAdmin(e.target.value);
@@ -43,6 +45,8 @@ function LogIn() {
 
         if(data.mensaje !== 'login failed'){
           localStorage.setItem('token', data.token);
+          navigate('/nueva-cotizacion', { replace: true });
+
         }
         else{
           // login failed modal
