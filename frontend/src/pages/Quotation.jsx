@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Button from '../components/Buttons';
 import styles from '../styles/Quotation.module.css';
 function Quotation() {
   return (
@@ -53,8 +54,8 @@ function Quotation() {
                 <option value="3">Garantía 3</option>
               </select>
             </div>
-
           </fieldset>
+          <Button type="submit" text="Agregar" variant="default" />
         </form>
 
         <div className={styles.tableContainer}>
@@ -82,6 +83,7 @@ function Quotation() {
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
             <legend className={styles.legend}>Facturación</legend>
+
             <div className={styles.inputGroup}>
               <label htmlFor="shippingCost" className={styles.label}>Costo de envío</label>
               <input type="number" className={styles.input} id="shippingCost" name="shippingCost" placeholder="$1000 MX" required />
@@ -97,11 +99,12 @@ function Quotation() {
               <input type="number" className={styles.input} id="deliveryTime" name="deliveryTime" placeholder="15 días" required />
             </div>
           </fieldset>
+          <Button type="submit" text="Continuar" variant="default" />
         </form>
       </div>
 
       <div className={styles.divider}>
-        <div className={styles.paper}>
+        <div className={`${styles.paper}`}>
           <header>
             <h2>Resumen</h2>
           </header>
