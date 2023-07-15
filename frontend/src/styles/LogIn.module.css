@@ -56,7 +56,7 @@ fieldset.formGroup>label {
     font-weight: 600;
 }
 
-input {
+input.input {
     padding: 0.5rem 0.75rem;
     border: 1px solid #e4e4e7;
     border-radius: .375rem;
@@ -71,14 +71,14 @@ input {
     width: 18rem;
 }
 
-input:focus {
+input.input:focus {
     outline: none;
     border: 1px solid rgb(113, 113, 121);
     color: #18181B;
     caret-color: #18181B;
 }
 
-footer {
+footer.footer {
     display: flex;
     flex-direction: row;
     justify-content: center;

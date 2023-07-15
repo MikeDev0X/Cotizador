@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { urlLocal } from '../../constants';
 import logo from '../assets/logo.png';
 import Button from '../components/Buttons';
 import styles from '../styles/LogIn.module.css';
-import {urlLocal} from '../../constants';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -16,11 +16,11 @@ function LogIn() {
     setAdmin(e.target.value);
   };
 
-  const handlePassword = (e) =>{
+  const handlePassword = (e) => {
     setPassword(e.target.value);
   }
 
-  const handleSubmit = async (e) =>{
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
@@ -30,30 +30,29 @@ function LogIn() {
     });
 
     fetch(urlLocal + 'login/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: formData,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: formData,
     })
-    .then((response) => response.json())
-    .then((data) =>{
+      .then((response) => response.json())
+      .then((data) => {
 
-      if(data){
+        if (data) {
 
-        console.log(data.mensaje);
+          console.log(data.mensaje);
 
-        if(data.mensaje !== 'login failed'){
-          localStorage.setItem('token', data.token);
-          navigate('/nueva-cotizacion', { replace: true });
+          if (data.mensaje !== 'login failed') {
+            localStorage.setItem('token', data.token);
+            navigate('/nueva-cotizacion', { replace: true });
+          }
+          else {
+            // login failed modal
+          }
 
         }
-        else{
-          // login failed modal
-        }
-
-      }
-    })
+      })
 
   }
 
@@ -71,20 +70,19 @@ function LogIn() {
 
           <fieldset className={styles.formGroup}>
             <label htmlFor="user">Usuario</label>
-            <input type="text" id='user' name="user" placeholder="leomjs9774" onChange={handleAdmin} required />
+            <input type="text" className={styles.input} id='user' name="user" placeholder="leomjs9774" onChange={handleAdmin} required />
           </fieldset>
 
           <fieldset className={styles.formGroup}>
             <label htmlFor="password">Contraseña</label>
-            <input type="password" id='password' name="password" placeholder="••••••••" onChange={handlePassword} required />
-          </fieldset>
+            <input type="password" className={styles.input} id='password' name="password" placeholder="••••••••" onChange={handlePassword} required />
+          </fieldset >
 
-          <Button type="submit" text="Iniciar sesión" variant="default"/>
-
+          <Button type="submit" text="Iniciar sesión" variant="default" />
         </form>
       </div>
 
-      <footer>
+      <footer className={styles.footer}>
         <span>Copyright© 2023 Hit Médica. Todos los derechos reservados.</span>
       </footer>
 
