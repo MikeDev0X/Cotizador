@@ -1,7 +1,29 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Buttons';
+import Modal from '../components/Modal';
+import ModalProduct from '../components/ModalProduct';
 import styles from '../styles/Quotation.module.css';
 function Quotation() {
+  const [ModalProductOpen, setModalProductOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModalProduct = () => {
+    setModalProductOpen(true);
+  }
+
+  const closeModalProduct = () => {
+    setModalProductOpen(false);
+  }
+
+  const openModal = () => {
+    setModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalOpen(false);
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.divider}>
@@ -18,7 +40,13 @@ function Quotation() {
           </fieldset>
 
           <fieldset className={styles.formGroup}>
-            <legend className={styles.legend}>Productos registrados</legend>
+            <div className={styles.legendButtonContainer}>
+              <legend className={styles.legend}>Productos registrados</legend>
+
+              <button type="button" className={styles.button} onClick={openModalProduct}>Registrar nuevo producto</button>
+
+              <ModalProduct open={ModalProductOpen} onClose={closeModalProduct} />
+            </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor="products" className={styles.label}>Producto</label>
@@ -59,8 +87,15 @@ function Quotation() {
         </form>
 
         <div className={styles.tableContainer}>
+          <div className={`${styles.legendButtonContainer} ${styles.productContainer}`}>
+            <h2 className={styles.caption}>Productos no registrados</h2>
+            <button type="button" className={styles.button} onClick={openModal}>Añadir un producto</button>
+
+            <Modal title="Modal" open={modalOpen} onClose={closeModal} >
+              <p>Modal content</p>
+            </Modal>
+          </div>
           <table className={styles.table}>
-            <caption className={styles.caption}>Productos no registrados</caption>
             <thead>
               <tr>
                 <th>Producto</th>
@@ -99,8 +134,10 @@ function Quotation() {
               <input type="number" className={styles.input} id="deliveryTime" name="deliveryTime" placeholder="15 días" required />
             </div>
           </fieldset>
+          {/* disabled button until fields are filled */}
           <Button type="submit" text="Continuar" variant="default" />
         </form>
+        {/* <Button type="button" text="Modal" variant="default" onClick={openModal} /> */}
       </div>
 
       <div className={styles.divider}>
@@ -108,9 +145,9 @@ function Quotation() {
           <header>
             <h2>Resumen</h2>
           </header>
+          <Button type="button" text="Confirmar" variant="default" />
         </div>
       </div>
-
     </div>
   );
 }
