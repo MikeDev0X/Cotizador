@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Buttons';
-import Modal from '../components/Modal';
+/* import Modal from '../components/Modal'; */
 import ModalProduct from '../components/ModalProduct';
 import styles from '../styles/Quotation.module.css';
 function Quotation() {
   const [ModalProductOpen, setModalProductOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  /* const [modalOpen, setModalOpen] = useState(false); */
 
   const openModalProduct = () => {
     setModalProductOpen(true);
@@ -16,13 +16,13 @@ function Quotation() {
     setModalProductOpen(false);
   }
 
-  const openModal = () => {
+  /* const openModal = () => {
     setModalOpen(true);
   }
 
   const closeModal = () => {
     setModalOpen(false);
-  }
+  } */
 
   return (
     <div className={styles.container}>
@@ -85,35 +85,6 @@ function Quotation() {
           </fieldset>
           <Button type="submit" text="Agregar" variant="default" />
         </form>
-
-        <div className={styles.tableContainer}>
-          <div className={`${styles.legendButtonContainer} ${styles.productContainer}`}>
-            <h2 className={styles.caption}>Productos no registrados</h2>
-            <button type="button" className={styles.button} onClick={openModal}>Añadir un producto</button>
-
-            <Modal title="Modal" open={modalOpen} onClose={closeModal} >
-              <p>Modal content</p>
-            </Modal>
-          </div>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
