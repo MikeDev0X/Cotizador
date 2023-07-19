@@ -5,10 +5,11 @@ import Button from '../components/Buttons';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalProduct from '../components/ModalProduct';
+import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/Quotation.module.css';
 
-
 function Quotation() {
+  useTabTitle('Nueva cotización');
   const [name, setName] = useState(''); // client's name
   const [equipments, setEquipments] = useState([]); // products names
   const [description, setDescription] = useState([]); // products descriptions
