@@ -27,7 +27,7 @@ const Modal = ({ title, children, open, onClose }) => {
         </div>
         <footer>
           <button onClick={handleClose}>Close</button>
-          <button onClick={handleClose}>Close</button>
+          <button className={styles.default} onClick={handleClose}>Close</button>
         </footer>
       </dialog>
     </>

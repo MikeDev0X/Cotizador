@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../components/Buttons';
 /* import Modal from '../components/Modal'; */
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalProduct from '../components/ModalProduct';
 import styles from '../styles/Quotation.module.css';
 function Quotation() {
-  const [ModalProductOpen, setModalProductOpen] = useState(false);
+  const [modalProductOpen, setModalProductOpen] = useState(false);
   /* const [modalOpen, setModalOpen] = useState(false); */
 
   const openModalProduct = () => {
@@ -43,9 +45,9 @@ function Quotation() {
             <div className={styles.legendButtonContainer}>
               <legend className={styles.legend}>Productos registrados</legend>
 
-              <button type="button" className={styles.button} onClick={openModalProduct}>Registrar nuevo producto</button>
+              <button type="button" className={`${styles.button} ${styles.default}`} onClick={openModalProduct}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
 
-              <ModalProduct open={ModalProductOpen} onClose={closeModalProduct} />
+              <ModalProduct open={modalProductOpen} onClose={closeModalProduct} />
             </div>
 
             <div className={styles.inputGroup}>
