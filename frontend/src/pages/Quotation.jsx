@@ -12,17 +12,6 @@ function Quotation() {
   const [name, setName] = useState(''); // client's name
   const [equipments, setEquipments] = useState([]); // products names
   const [description, setDescription] = useState([]); // products descriptions
-
-
-
-
-
-
-
-
-
-
-
   const [modalProductOpen, setModalProductOpen] = useState(false);
   /* const [modalOpen, setModalOpen] = useState(false); */
 
