@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { urlLocal } from '../../constants';
 import Button from '../components/Buttons';
@@ -8,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalProduct from '../components/ModalProduct';
 import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/Quotation.module.css';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import buttonStyles from '../styles/Buttons.module.css';
 
 
