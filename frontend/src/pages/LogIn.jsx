@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { urlLocal } from '../../constants';
 import logo from '../assets/logo.png';
 import Button from '../components/Buttons';
+import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/LogIn.module.css';
-import { useNavigate } from 'react-router-dom';
-
 
 function LogIn() {
-
+  useTabTitle('Iniciar sesión');
   const [admin, setAdmin] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();

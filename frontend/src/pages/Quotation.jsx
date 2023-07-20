@@ -1,12 +1,19 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { urlLocal } from '../../constants';
 import Button from '../components/Buttons';
+/* import Modal from '../components/Modal'; */
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ModalProduct from '../components/ModalProduct';
+import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/Quotation.module.css';
 import { useEffect, useState, useCallback } from 'react';
 import buttonStyles from '../styles/Buttons.module.css';
 
 
 function Quotation() {
+  useTabTitle('Nueva cotización');
   const [name, setName] = useState(''); // client's name
 
   const [idQuotation, setIdQuotation] = useState(0); // last's quotation ID
@@ -27,6 +34,26 @@ function Quotation() {
   const[validity, setValidity] = useState();
   const[deliveryCost, setDeliveryCost] = useState(0);
   const[observations, setObservations] = useState('');
+
+
+  const [modalProductOpen, setModalProductOpen] = useState(false);
+  /* const [modalOpen, setModalOpen] = useState(false); */
+
+  const openModalProduct = () => {
+    setModalProductOpen(true);
+  }
+
+  const closeModalProduct = () => {
+    setModalProductOpen(false);
+  }
+
+  /* const openModal = () => {
+    setModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setModalOpen(false);
+  } */
 
 
   useEffect(() => {
@@ -179,7 +206,6 @@ function Quotation() {
   console.log(conceptsList);
 
 
-
   return (
     <div className={styles.container}>
       <div className={styles.divider}>
@@ -196,7 +222,13 @@ function Quotation() {
           </fieldset>
 
           <fieldset className={styles.formGroup}>
-            <legend className={styles.legend}>Productos registrados</legend>
+            <div className={styles.legendButtonContainer}>
+              <legend className={styles.legend}>Productos registrados</legend>
+
+              <button type="button" className={`${styles.button} ${styles.default}`} onClick={openModalProduct}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
+
+              <ModalProduct open={modalProductOpen} onClose={closeModalProduct} />
+            </div>
 
             <div className={styles.inputGroup}>
               <label htmlFor="products" className={styles.label}>Producto</label>
@@ -254,28 +286,6 @@ function Quotation() {
 
         </form>
 
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <caption className={styles.caption}>Productos no registrados</caption>
-            <thead>
-              <tr>
-                <th>Producto</th>
-                <th>Cantidad</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
             <legend className={styles.legend}>Facturación</legend>
@@ -301,8 +311,10 @@ function Quotation() {
             </div>
 
           </fieldset>
+          {/* disabled button until fields are filled */}
           <Button type="submit" text="Continuar" variant="default" />
         </form>
+        {/* <Button type="button" text="Modal" variant="default" onClick={openModal} /> */}
       </div>
 
       <div className={styles.divider}>
@@ -310,9 +322,9 @@ function Quotation() {
           <header>
             <h2>Resumen</h2>
           </header>
+          <Button type="button" text="Confirmar" variant="default" />
         </div>
       </div>
-
     </div>
   );
 }

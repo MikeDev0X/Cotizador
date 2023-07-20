@@ -41,10 +41,25 @@ fieldset.formGroup {
     gap: 1rem;
 }
 
+fieldset.formGroup:first-of-type {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+fieldset.formGroup:last-of-type {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
 fieldset.formGroup legend.legend {
     font-size: 1.5rem;
     font-weight: 650;
     color: #18181B;
+}
+
+fieldset.formGroup legend.legend:last-of-type {
     margin-bottom: 1rem;
 }
 
@@ -111,11 +126,11 @@ textarea.textarea {
     font-family: inherit;
 }
 
-textarea:focus {
+textarea.textarea:focus {
     outline: none;
 }
 
-textarea::placeholder {
+textarea.textarea::placeholder {
     color: #18181B;
 }
 
@@ -157,15 +172,20 @@ div.divider:nth-child(2) h2 {
     color: #18181B;
 }
 
-/* div.divider:nth-child(2) {
-    border: 1px solid var(--silver);
+div.divider:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    /* border: 1px solid var(--silver);
     background-color: var(--gray-bg);
     border-radius: .75rem;
     -webkit-border-radius: .75rem;
     -moz-border-radius: .75rem;
     -ms-border-radius: .75rem;
-    -o-border-radius: .75rem;
-} */
+    -o-border-radius: .75rem; */
+}
 
 div.divider:nth-child(2) div.paper {
     padding: 1rem;
@@ -180,6 +200,57 @@ div.divider:nth-child(2) div.paper {
     width: 70%;
     border: 1px solid #e4e4e7;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
-    position: sticky;
-    top: 0;
+    /* position: sticky;
+    top: 0; */
+}
+
+div.paper Button {
+    margin-top: auto;
+}
+
+/* form.form:last-of-type fieldset.formGroup legend.legend {
+    display: inline-block;
+}
+
+form.form:last-of-type fieldset.formGroup {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+} */
+
+
+div.legendButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* margin-bottom: 1rem; */
+}
+
+button.button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    -webkit-border-radius: 0.3rem;
+    -moz-border-radius: 0.3rem;
+    -ms-border-radius: 0.3rem;
+    -o-border-radius: 0.3rem;
+    padding: 0.5rem
+        /*  1rem */
+    ;
+    border: none;
+}
+
+button.default {
+    background-color: #18181B;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
 }
