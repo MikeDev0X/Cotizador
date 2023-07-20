@@ -1,0 +1,149 @@
+dialog:modal {
+    /* inline-size: 66ch; */
+    /* block-size: 50ch; */
+    overflow-wrap: break-word;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    padding: 1.2rem;
+    border: none;
+    border-radius: 0.5rem;
+    /* text-wrap: balance; */
+}
+
+form.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+fieldset.formGroup {
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+
+fieldset.formGroup legend.legend {
+    font-size: 1.5rem;
+    font-weight: 650;
+    color: #18181B;
+}
+
+fieldset.formGroup label.label {
+    font-weight: 600;
+    width: 7.5rem;
+}
+
+div.inputGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+input.input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e4e4e7;
+    border-radius: .375rem;
+    -webkit-border-radius: .375rem;
+    -moz-border-radius: .375rem;
+    -ms-border-radius: .375rem;
+    -o-border-radius: .375rem;
+    font-size: 1rem;
+    color: #18181B;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+    transition: all 0.2s ease-in-out;
+    width: 18rem;
+}
+
+textarea.textarea::placeholder,
+input.input::placeholder {
+    color: rgb(113, 113, 121);
+}
+
+input.input:focus {
+    outline: none;
+    border: 1px solid rgb(113, 113, 121);
+    color: #18181B;
+    caret-color: #18181B;
+}
+
+textarea.textarea {
+    cursor: default;
+    border: 1px solid #e4e4e7;
+    border-radius: .375rem;
+    -webkit-border-radius: .375rem;
+    -moz-border-radius: .375rem;
+    -ms-border-radius: .375rem;
+    -o-border-radius: .375rem;
+    font-size: 1rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+    padding: 0.5rem 0.75rem;
+    width: 18rem;
+    font-family: inherit;
+}
+
+textarea.textarea:focus {
+    outline: none;
+}
+
+/* dialog::backdrop {
+    backdrop-filter: blur(1px);
+    background-color: rgba(0, 0, 0, 0.3);
+} */
+
+footer {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 2rem;
+}
+
+
+/* BUTTONS */
+
+button.button {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 0.3rem;
+    -webkit-border-radius: 0.3rem;
+    -moz-border-radius: 0.3rem;
+    -ms-border-radius: 0.3rem;
+    -o-border-radius: 0.3rem;
+    padding: 0.5rem 1rem;
+    border: none;
+}
+
+button.default {
+    background-color: #18181B;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+button.variant {
+    background-color: #fff;
+    color: #18181B;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #18181B;
+}
+
+/* BUTTONS VALIDATIONS */
+
+/* cambiar de color el botón si los inputs no están llenos */
+button.default:disabled {
+    background-color: #e4e4e7;
+    color: #18181B;
+    cursor: not-allowed;
+}
