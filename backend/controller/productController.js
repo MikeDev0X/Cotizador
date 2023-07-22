@@ -16,9 +16,38 @@ module.exports.addProduct = (req, res) =>{
 
     conexion.query(sql, [description, details, singlePrice], (error, results)=>{
         if(error)
-            res.send(error)
+            res.send(error);
         else{
-            res.json(results)
+            res.json(results);
+        }
+    })
+
+}
+
+module.exports.getProducts = (req, res) =>{
+
+    const sql = 'SELECT * FROM Product';
+
+    conexion.query(sql, (error,results)=>{
+        if(error)
+            res.send(error);
+        else{
+            res.json(results);
+        }
+    })
+
+}
+
+module.exports.getTransducers = (req, res) =>{
+
+    const idProduct = req.params.idProduct;
+    const sql = 'SELECT hasTransducer FROM Product WHERE idProduct = ?';
+
+    conexion.query(sql, [idProduct], (error, results) => {
+        if (error)
+            res.send(error);
+        else {
+            res.json(results);
         }
     })
 

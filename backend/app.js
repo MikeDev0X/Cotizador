@@ -2,6 +2,9 @@ const express = require('express');
 const res = require('express/lib/response');
 const config = require('./config/jwt');
 const login = require('./routes/login');
+const product = require('./routes/product');
+const warranty = require('./routes/warranty');
+const quotation = require('./routes/quotation');
 
 const multer = require('multer');
 const cors =require('cors');
@@ -20,7 +23,10 @@ app.use(multer().array());
 app.use(express.json());
 app.set("key", config.key);
 
-app.use('/', login)
+app.use('/', login);
+app.use('/', product);
+app.use('/', warranty);
+app.use('/', quotation);
 
 
 //Función callback -> función que se ejecuta como respuesta a un evento o acción

@@ -6,6 +6,20 @@ const mysqlConfig = require('../helpers/mysql-config.js');
 const conexion = mysql.createConnection(mysqlConfig);
 
 
+module.exports.getLastQuotation = (req, res) =>{
+    const query = `SELECT MAX(idQuotation) as MAX FROM Quotation`;
+
+    conexion.query(query, (error, results)=>{
+        if(error)
+            res.send(error);
+        else{
+            res.json(results);
+        }
+
+    })
+
+}
+
 module.exports.addQuotation = (req, res) =>{
 
     const idAdmin = req.body.idAdmin;
