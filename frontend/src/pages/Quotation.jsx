@@ -4,6 +4,7 @@ import Button from '../components/Buttons';
 /* import Modal from '../components/Modal'; */
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Logo from '../assets/logo.png';
 import ModalProduct from '../components/ModalProduct';
 import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/Quotation.module.css';
@@ -121,9 +122,94 @@ function Quotation() {
 
       <div className={styles.divider}>
         <div className={`${styles.paper}`}>
-          <header>
-            <h2>Resumen</h2>
+          <header className={styles.paperHeader}>
+            <div className={styles.paperHeaderGroup}>
+              <img src={Logo} alt="Logo" className={styles.logo} />
+            </div>
+
+            <div className={styles.paperHeaderGroup}>
+              <span>H Y M HEALTHCARE SA DE CV</span>
+              <span>HMH210819114</span>
+              <h4>Cotización</h4>
+            </div>
+
+            <div className={styles.paperHeaderGroup}>
+              <div className={styles.folioAndDate}>
+                <span>FOLIO: <span className={styles.folio}>1337</span></span>
+                <span>FECHA: 27/05/2023</span>
+              </div>
+            </div>
           </header>
+
+          <div className={styles.paperContent}>
+            <span>Leonardo Morales</span>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Cantidad</th>
+                  <th>Producto</th>
+                  <th>Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Producto 1</td>
+                  <td>$100,000 MX</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Producto 2</td>
+                  <td>$100,000 MX</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>Producto 3</td>
+                  <td>$100,000 MX</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <footer>
+            <div className={styles.footerGroup}>
+              <div className={styles.footerGroupItem}>
+                <span>OBSERVACIONES:</span><p>Cotización Contado</p>
+              </div>
+
+              <div className={styles.footerGroupItem}>
+                <span>GARANT&#205;A:</span>
+                <p>.*18 Meses de Garantía en Equipo de Ultrasonido Chison Nuevo (Unidad principal); **12 Meses de Garantía en Transductores Chison Nuevos; ***12 Meses de Garantía en Batería integrada al equipo; ****Impresoras, reguladores y accesorios la garantía es directo con fabricante.</p>
+              </div>
+            </div>
+
+            <div className={styles.footerGroup}>
+              <div className={styles.footerGroupItem}>
+                <div className={styles.row}>
+                  <span>SUBTOTAL</span>
+                  <span>$96,638.00</span>
+                </div>
+                <div className={styles.row}>
+                  <span>IVA</span>
+                  <span>$15,414.08</span>
+                </div>
+                <div className={styles.row}>
+                  <span>COSTO DE ENTREGA:</span>
+                  <span>$700.00</span>
+                </div>
+                <div className={styles.row}>
+                  <span>MONTO TOTAL</span>
+                  <span>$112,800.00</span>
+                </div>
+              </div>
+              <span>
+                COTIZACIÓN CON VALIDEZ DE 7 DÍAS POSTERIOR A LA FECHA DE EMISIÓN
+              </span>
+            </div>
+
+          </footer>
+
           <Button type="button" text="Confirmar" variant="default" />
         </div>
       </div>
