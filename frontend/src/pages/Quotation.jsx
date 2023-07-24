@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import { urlLocal } from '../../constants';
-import Button from '../components/Buttons';
-/* import Modal from '../components/Modal'; */
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { urlLocal } from '../../constants';
 import Logo from '../assets/logo.png';
+import Button from '../components/Buttons';
+import Modal from '../components/Modal';
 import ModalProduct from '../components/ModalProduct';
 import useTabTitle from '../hooks/useTabTitle';
 import buttonStyles from '../styles/Buttons.module.css';
@@ -37,7 +37,7 @@ function Quotation() {
 
 
   const [modalProductOpen, setModalProductOpen] = useState(false);
-  /* const [modalOpen, setModalOpen] = useState(false); */
+  const [modalOpen, setModalOpen] = useState(false);
 
   const openModalProduct = () => {
     setModalProductOpen(true);
@@ -47,13 +47,13 @@ function Quotation() {
     setModalProductOpen(false);
   }
 
-  /* const openModal = () => {
+  const openModal = () => {
     setModalOpen(true);
   }
 
   const closeModal = () => {
     setModalOpen(false);
-  } */
+  }
 
 
   useEffect(() => {
@@ -326,7 +326,7 @@ function Quotation() {
           </header>
 
           <div className={styles.paperContent}>
-            <span>Leonardo Morales</span>
+            <span>Dr. Ariana Alejandra Rivera Cruz</span>
 
             <table className={styles.table}>
               <thead>
@@ -398,7 +398,12 @@ function Quotation() {
 
           </footer>
 
-          <Button type="button" text="Confirmar" variant="default" />
+          {/* <Button type="button" text="Confirmar" variant="default" /> */}
+
+          <button type="button" className={buttonStyles.default} onClick={openModal}>Confirmar</button>
+          <Modal title="Cotización creada exitosamente" open={modalOpen} onClose={closeModal}>
+            <p>La cotización ha sido creada y guardada exitosamente.</p>
+          </Modal>
         </div>
       </div>
     </div>

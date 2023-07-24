@@ -251,6 +251,10 @@ header.paperHeader div.paperHeaderGroup:nth-child(2) span {
     text-align: center;
 }
 
+header.paperHeader div.paperHeaderGroup:nth-child(2) h4 {
+    color: rgb(0, 112, 189);
+}
+
 header.paperHeader div.paperHeaderGroup:nth-child(3) {
     align-items: flex-end;
 }
