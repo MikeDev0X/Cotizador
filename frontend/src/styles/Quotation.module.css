@@ -157,25 +157,6 @@ div.tableContainer {
     margin-top: 2rem;
 }
 
-table.table {
-    border-collapse: collapse;
-}
-
-table.table caption.caption {
-    font-size: 1.5rem;
-    font-weight: 650;
-    color: #18181B;
-    margin-bottom: 1rem;
-    text-align: left;
-}
-
-table.table thead th {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #18181B;
-    text-align: left;
-}
-
 /* QUOTATION SECTION */
 
 div.divider:nth-child(2) {
@@ -227,7 +208,7 @@ div.divider:nth-child(2) div.paper {
     overflow: hidden; */
 
     display: grid;
-    grid-template-rows: 15% 45% 33% 7%;
+    grid-template-rows: 13% 47% 34% 6%;
 }
 
 div.paper Button {
@@ -236,6 +217,7 @@ div.paper Button {
 
 header.paperHeader {
     display: grid;
+    place-content: center;
     grid-template-columns: 25% 45% 1fr;
     width: 100%;
     gap: 0.5rem;
@@ -291,6 +273,103 @@ header.paperHeader div.paperHeaderGroup:nth-child(3) span:first-of-type {
 
 header.paperHeader div.paperHeaderGroup:nth-child(3) span:first-of-type>span {
     color: red;
+}
+
+table.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.table thead tr th {
+    font-size: 0.9rem;
+    font-weight: 650;
+    color: #18181B;
+    text-align: left;
+    padding: 0.5rem 0rem;
+}
+
+table.table tbody tr td {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #18181B;
+    text-align: left;
+    padding: 0.5rem 0rem;
+}
+
+footer.footer {
+    display: grid;
+    place-content: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+}
+
+footer.footer div.footerGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+footer.footer div.footerGroup:first-of-type div.footerGroupItem:first-of-type {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+footer.footer div.footerGroup:first-of-type div.footerGroupItem:is(:first-of-type, :last-of-type) span {
+    font-size: 0.75rem;
+    font-weight: 650;
+    color: #18181B;
+}
+
+footer.footer div.footerGroup:first-of-type div.footerGroupItem:first-of-type p {
+    font-size: 0.7rem;
+    font-weight: 550;
+    color: #18181B;
+}
+
+footer.footer div.footerGroup:first-of-type div.footerGroupItem:last-of-type p {
+    font-size: 0.65rem;
+    color: #18181B;
+}
+
+footer.footer div.footerGroup:last-of-type div.footerGroupItem:first-of-type {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+footer.footer div.footerGroup:last-of-type div.footerGroupItem:first-of-type span:first-of-type {
+    font-size: 0.85rem;
+    font-weight: 750;
+    color: #18181B;
+}
+
+footer.footer div.footerGroup:last-of-type div.footerGroupItem:first-of-type span:last-of-type {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #18181B;
+}
+
+footer.footer div.footerGroup:last-of-type div.footerGroupItem:first-of-type div.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+footer.footer div.footerGroup:last-of-type span {
+    font-size: 0.55rem;
+    font-weight: 450;
+    color: #18181B;
 }
 
 button.button {

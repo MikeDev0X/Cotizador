@@ -25,7 +25,7 @@ const Modal = ({ title, children, open, onClose }) => {
         <div className={styles.content}>
           {children}
         </div>
-        <footer>
+        <footer className={styles.footer}>
           <button onClick={handleClose}>Close</button>
           <button className={styles.default} onClick={handleClose}>Close</button>
         </footer>

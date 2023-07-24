@@ -4,12 +4,12 @@ import Button from '../components/Buttons';
 /* import Modal from '../components/Modal'; */
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from 'react';
 import Logo from '../assets/logo.png';
 import ModalProduct from '../components/ModalProduct';
 import useTabTitle from '../hooks/useTabTitle';
-import styles from '../styles/Quotation.module.css';
-import { useEffect, useState } from 'react';
 import buttonStyles from '../styles/Buttons.module.css';
+import styles from '../styles/Quotation.module.css';
 
 
 function Quotation() {
@@ -29,11 +29,11 @@ function Quotation() {
   const [warranties, setWarranties] = useState({}); //warranties list according to each product
   const [conceptsList, setConceptsList] = useState([]); //list of concepts
 
-  /* Billing info */
-  const[deliveryTime, setDeliveryTime] = useState(0);
-  const[validity, setValidity] = useState();
-  const[deliveryCost, setDeliveryCost] = useState(0);
-  const[observations, setObservations] = useState('');
+  /** @note Billing info */
+  const [deliveryTime, setDeliveryTime] = useState(0);
+  const [validity, setValidity] = useState();
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [observations, setObservations] = useState('');
 
 
   const [modalProductOpen, setModalProductOpen] = useState(false);
@@ -70,11 +70,11 @@ function Quotation() {
   }, [])
 
   const handleSave = (e) => {
-    if(e.target.value !== '---'){
+    if (e.target.value !== '---') {
       const found = products.find(element => element.name === e.target.value);
       setCurrent(found);
 
-      if(found.hasTransducer){
+      if (found.hasTransducer) {
         //fetch data if transducers associated
 
         fetch(urlLocal + 'getTransducers/' + found.idProduct, {
@@ -84,7 +84,7 @@ function Quotation() {
           .then((data) => {
 
             if (data) {
-              if(data[0].hasTransducer === 'YES')
+              if (data[0].hasTransducer === 'YES')
                 setHasTransducer(true);
               else
                 setHasTransducer(false);
@@ -94,34 +94,34 @@ function Quotation() {
 
 
       }
-      else{
+      else {
         setHasTransducer(false);
-      } 
+      }
 
       setDescription(found.description);
       setPrice(found.singlePrice);
 
     }
-    else{
+    else {
       setCurrent({});
       setDescription('');
       setPrice(0);
       setQuantity(1);
       setHasTransducer(false);
     }
-    
+
   }
 
-  const handleSaveWarranty = (e) =>{
+  const handleSaveWarranty = (e) => {
     setSelectedWarranty(e.target.value);
   }
 
-  const handleSaveQuantity = (e) =>{
+  const handleSaveQuantity = (e) => {
     setQuantity(e.target.value);
   }
 
 
-  const saveDeliveryCost = (e) =>{
+  const saveDeliveryCost = (e) => {
     setDeliveryCost(e.target.value);
   }
 
@@ -142,9 +142,9 @@ function Quotation() {
 
   useEffect(() => {
 
-    console.log(current!==undefined);
+    console.log(current !== undefined);
 
-    if(current!==undefined){
+    if (current !== undefined) {
       fetch(urlLocal + 'getWarranties/' + current.idProduct, {
         method: "GET",
       })
@@ -167,15 +167,15 @@ function Quotation() {
           }
         })
     }
-    
+
 
   }, [current])
 
-  const handleAddConcept = () =>{ // adds concept to state variable until quotation is done
+  const handleAddConcept = () => { // adds concept to state variable until quotation is done
 
     var newConcept = {};
 
-    if(selectedWarranty!==''){
+    if (selectedWarranty !== '') {
       fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + selectedWarranty, {
         method: "GET",
       })
@@ -197,14 +197,7 @@ function Quotation() {
           }
         })
     }
-    
-
-
-
   }
-
-  console.log(conceptsList);
-
 
   return (
     <div className={styles.container}>
@@ -237,12 +230,10 @@ function Quotation() {
                 {(products.length !== undefined) && products.map((element) =>
                   <option key={element.key} value={element.value}>{element.name}</option>
                 )}
-
-
               </select>
             </div>
 
-            {hasTransducer && 
+            {hasTransducer &&
               <div className={styles.inputGroup}>
                 <label htmlFor="transducers" className={styles.label}>Transductores</label>
                 <select name="transducers" id="transducers" className={styles.select} onChange={handleSave}>
@@ -253,8 +244,6 @@ function Quotation() {
                 </select>
               </div>
             }
-            
-
 
             <div className={styles.inputGroup}>
               <label htmlFor="quantity" className={styles.label}>Cantidad</label>
@@ -268,7 +257,7 @@ function Quotation() {
 
             <div className={styles.inputGroup}>
               <label htmlFor="price" className={styles.label}>Precio unitario</label>
-              <input type="number" className={styles.input} id="price" name="price" placeholder={'$ '+price + ' MXN'} readOnly required />
+              <input type="number" className={styles.input} id="price" name="price" placeholder={'$ ' + price + ' MXN'} readOnly required />
             </div>
 
             <div className={styles.inputGroup}>
@@ -283,7 +272,6 @@ function Quotation() {
           </fieldset>
 
           <button type="button" className={buttonStyles.default} onClick={() => handleAddConcept()}>{'Agregar'}</button>
-
         </form>
 
         <form className={styles.form}>
@@ -309,12 +297,11 @@ function Quotation() {
               <label htmlFor="observations" className={styles.label}>Observaciones</label>
               <input type="text" className={styles.input} id="observations" name="observations" placeholder="" onChange={saveObservations} required />
             </div>
-
           </fieldset>
+
           {/* disabled button until fields are filled */}
           <Button type="submit" text="Continuar" variant="default" />
         </form>
-        {/* <Button type="button" text="Modal" variant="default" onClick={openModal} /> */}
       </div>
 
       <div className={styles.divider}>
@@ -341,12 +328,13 @@ function Quotation() {
           <div className={styles.paperContent}>
             <span>Leonardo Morales</span>
 
-            <table>
+            <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Cantidad</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
+                  <th>CANTIDAD</th>
+                  <th>PRODUCTO</th>
+                  <th>PRECIO UNITARIO</th>
+                  <th>PRECIO TOTAL</th>
                 </tr>
               </thead>
               <tbody>
@@ -354,22 +342,25 @@ function Quotation() {
                   <td>1</td>
                   <td>Producto 1</td>
                   <td>$100,000 MX</td>
+                  <td>$100,000 MX</td>
                 </tr>
                 <tr>
                   <td>1</td>
                   <td>Producto 2</td>
+                  <td>$100,000 MX</td>
                   <td>$100,000 MX</td>
                 </tr>
                 <tr>
                   <td>1</td>
                   <td>Producto 3</td>
                   <td>$100,000 MX</td>
+                  <td>$100,000 MX</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <footer>
+          <footer className={styles.footer}>
             <div className={styles.footerGroup}>
               <div className={styles.footerGroupItem}>
                 <span>OBSERVACIONES:</span><p>Cotización Contado</p>
