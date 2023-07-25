@@ -1,16 +1,18 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { urlLocal } from '../../constants';
 import Logo from '../assets/logo.png';
 import Button from '../components/Buttons';
-import Modal from '../components/Modal';
+import ModalPDF from '../components/ModalPDF';
 import ModalProduct from '../components/ModalProduct';
+import PDFComponent from '../components/PDFComponent';
 import useTabTitle from '../hooks/useTabTitle';
 import buttonStyles from '../styles/Buttons.module.css';
 import styles from '../styles/Quotation.module.css';
-
 
 function Quotation() {
   useTabTitle('Nueva cotización');
@@ -35,9 +37,14 @@ function Quotation() {
   const [deliveryCost, setDeliveryCost] = useState(0);
   const [observations, setObservations] = useState('');
 
+  /* const [verPDF, setverPDF] = useState(false);
+
+  const handleVerPDF = () => {
+    setverPDF(!verPDF);
+  } */
 
   const [modalProductOpen, setModalProductOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalPDFOpen] = useState(false);
 
   const openModalProduct = () => {
     setModalProductOpen(true);
@@ -47,14 +54,13 @@ function Quotation() {
     setModalProductOpen(false);
   }
 
-  const openModal = () => {
-    setModalOpen(true);
+  const openModalPDF = () => {
+    setModalPDFOpen(true);
   }
 
-  const closeModal = () => {
-    setModalOpen(false);
+  const closeModalPDF = () => {
+    setModalPDFOpen(false);
   }
-
 
   useEffect(() => {
     fetch(urlLocal + 'getProducts/', {
@@ -197,6 +203,16 @@ function Quotation() {
           }
         })
     }
+  }
+
+  const handleVerPDF = () => {
+    const pdfWindow = window.open('', '_blank');
+    pdfWindow.document.write('<html><head><title>PDF Document</title></head><body>');
+    pdfWindow.document.write('<div id="root"></div>');
+    pdfWindow.document.write('</body></html>');
+    pdfWindow.document.close();
+
+    ReactDOM.render(<PDFViewer style={{ width: "100%", height: "100vh", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "100" }}><PDFComponent /></PDFViewer>, pdfWindow.document.getElementById('root'));
   }
 
   return (
@@ -400,10 +416,18 @@ function Quotation() {
 
           {/* <Button type="button" text="Confirmar" variant="default" /> */}
 
-          <button type="button" className={buttonStyles.default} onClick={openModal}>Confirmar</button>
-          <Modal title="Cotización creada exitosamente" open={modalOpen} onClose={closeModal}>
+          <button type="button" className={buttonStyles.default} onClick={openModalPDF}>Confirmar</button>
+          <ModalPDF title="Cotización creada exitosamente" open={modalOpen} onClose={closeModalPDF}>
             <p>La cotización ha sido creada y guardada exitosamente.</p>
-          </Modal>
+            <footer className={styles.footer}>
+              {/* <button className={buttonStyles.default} onClick={closeModalPDF}>Ver cotizaciones</button> */}
+              <button className={buttonStyles.default} onClick={handleVerPDF}>Ver PDF</button>
+              <PDFDownloadLink document={<PDFComponent />} fileName="cotizacion.pdf">
+                <button className={buttonStyles.default}>Descargar PDF</button>
+              </PDFDownloadLink>
+            </footer>
+
+          </ModalPDF>
         </div>
       </div>
     </div>
