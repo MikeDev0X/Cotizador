@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ModalProduct from '../components/ModalProduct';
 import useTabTitle from '../hooks/useTabTitle';
 import styles from '../styles/Quotation.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import buttonStyles from '../styles/Buttons.module.css';
 
 
@@ -20,8 +20,12 @@ function Quotation() {
   const [description, setDescription] = useState(''); // selected product description
   const [price, setPrice] = useState(0); //selected product single price
   const [selectedWarranty, setSelectedWarranty] = useState(''); //selected product current warranty
-  const [hasTransducer, setHasTransducer] = useState(false);
-  const [transducers, setTransducers] = useState({});
+
+  const [hasTransducer, setHasTransducer] = useState(false); //const to know if a product has a list of transducers associated
+  const [decoyTransducerState, setDecoyTransducerState] = useState(false); //
+
+  const [transducers, setTransducers] = useState({}); //list of transducers associated
+  const [selectedTransducer, setSelectedTransducer] = useState(''); //selected transducer
 
   const [products, setProducts] = useState({}); // products list
   const [current, setCurrent] = useState({}); //product's current object
@@ -34,25 +38,15 @@ function Quotation() {
   const[deliveryCost, setDeliveryCost] = useState(0);
   const[observations, setObservations] = useState('');
 
-
-  const [modalProductOpen, setModalProductOpen] = useState(false);
-  /* const [modalOpen, setModalOpen] = useState(false); */
+  const dialog = useRef(null);
 
   const openModalProduct = () => {
-    setModalProductOpen(true);
+    dialog.current.showModal();
   }
 
-  const closeModalProduct = () => {
-    setModalProductOpen(false);
+  const closeModalProduct = (e) => {
+    dialog.current.close();
   }
-
-  /* const openModal = () => {
-    setModalOpen(true);
-  }
-
-  const closeModal = () => {
-    setModalOpen(false);
-  } */
 
 
   useEffect(() => {
@@ -76,7 +70,7 @@ function Quotation() {
       if(found.hasTransducer){
         //fetch data if transducers associated
 
-        fetch(urlLocal + 'getTransducers/' + found.idProduct, {
+        fetch(urlLocal + 'getHasTransducer/' + found.idProduct, {
           method: "GET",
         })
           .then((response) => response.json())
@@ -85,9 +79,10 @@ function Quotation() {
             if (data) {
               if(data[0].hasTransducer === 'YES')
                 setHasTransducer(true);
-              else
-                setHasTransducer(false);
 
+              else{
+                setHasTransducer(false);
+              }
             }
           })
 
@@ -109,6 +104,30 @@ function Quotation() {
       setHasTransducer(false);
     }
     
+    setDecoyTransducerState(!decoyTransducerState);
+  }
+
+  const handleSaveTransducer = (e) =>{
+    setSelectedTransducer(e.target.value);
+  }
+
+  useEffect(()=>{
+      fetch(urlLocal + 'getTransducersFrom/' + current.idProduct, {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+
+          if (data) {
+            setTransducers(data);
+          }
+        })
+
+  },[decoyTransducerState])
+
+
+  const saveName = (e) =>{
+    setName(e.target.value);
   }
 
   const handleSaveWarranty = (e) =>{
@@ -126,7 +145,6 @@ function Quotation() {
 
   const saveValidity = (e) => {
     setValidity(e.target.value);
-    console.log(e.target.value);
   }
 
   const saveDeliveryTime = (e) => {
@@ -137,11 +155,7 @@ function Quotation() {
     setDeliveryTime(e.target.value);
   }
 
-
-
   useEffect(() => {
-
-    console.log(current!==undefined);
 
     if(current!==undefined){
       fetch(urlLocal + 'getWarranties/' + current.idProduct, {
@@ -173,17 +187,38 @@ function Quotation() {
   const handleAddConcept = () =>{ // adds concept to state variable until quotation is done
 
     var newConcept = {};
+    var currentWarranty = '';
 
-    if(selectedWarranty!==''){
-      fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + selectedWarranty, {
+    if(selectedWarranty === '')
+      currentWarranty = 'Sin garantía';
+    else
+      currentWarranty = selectedWarranty;
+
+
+      console.log(currentWarranty);
+
+      fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + currentWarranty, {
         method: "GET",
       })
         .then((response) => response.json())
         .then((data) => {
 
           if (data) {
+            let currentIdTransducer = -1;
 
-            newConcept = { 'idProduct': current.idProduct, 'idQuotation': idQuotation + 1, 'idWarranty': data[0].idWarranty, 'quantity': parseInt(quantity) }
+            console.log(transducers);
+            if(hasTransducer){// if product has transducers available, search index
+              const found = transducers.find(element => element.name === selectedTransducer);
+              currentIdTransducer = found.idTransducer;
+            }
+            else{ //since it doesn't have compatible transducers, selected transducer will be empty, so we search 'NONE' / 'Ninguno' directly
+              const found = transducers.find(element => element.name === 'NONE');
+              currentIdTransducer = found.idTransducer;
+            }
+
+            console.log(transducers);
+
+            newConcept = { 'idProduct': current.idProduct, 'idQuotation': 0, 'idWarranty': data[0].idWarranty, 'idTransducer' : currentIdTransducer, 'quantity': parseInt(quantity) }
             console.log(newConcept);
             const tempList = conceptsList;
             tempList.push(newConcept);
@@ -195,14 +230,11 @@ function Quotation() {
             setQuantity(1); */
           }
         })
-    }
     
+    console.log(conceptsList);
 
-
-
+    setSelectedWarranty('')
   }
-
-  console.log(conceptsList);
 
 
   return (
@@ -213,20 +245,21 @@ function Quotation() {
         </header>
         <Link to="/" className={styles.link}>&larr; Volver</Link>
 
+        <dialog ref={dialog}>
+          <ModalProduct close={closeModalProduct} />
+        </dialog>
+
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
             <legend className={styles.legend}>Cliente</legend>
             <label htmlFor="name" className={styles.label}>Nombre</label>
-            <input type="text" className={styles.input} id="name" name="name" placeholder="Leonardo Morales" required autoFocus />
+            <input type="text" className={styles.input} id="name" name="name" placeholder="Leonardo Morales" value={name} onChange={saveName} required autoFocus />
           </fieldset>
 
           <fieldset className={styles.formGroup}>
             <div className={styles.legendButtonContainer}>
               <legend className={styles.legend}>Productos registrados</legend>
-
-              <button type="button" className={`${styles.button} ${styles.default}`} onClick={openModalProduct}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
-
-              <ModalProduct open={modalProductOpen} onClose={closeModalProduct} />
+              <button type="button" className={`${styles.button} ${styles.default}`} onClick={()=>openModalProduct()}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
             </div>
 
             <div className={styles.inputGroup}>
@@ -244,9 +277,9 @@ function Quotation() {
             {hasTransducer && 
               <div className={styles.inputGroup}>
                 <label htmlFor="transducers" className={styles.label}>Transductores</label>
-                <select name="transducers" id="transducers" className={styles.select} onChange={handleSave}>
+                <select name="transducers" id="transducers" className={styles.select} onChange={handleSaveTransducer}>
                   <option selected default>---</option>
-                  {(products.length !== undefined) && products.map((element) =>
+                  {(transducers.length !== undefined) && transducers.map((element) =>
                     <option key={element.key} value={element.value}>{element.name}</option>
                   )}
                 </select>
@@ -328,4 +361,4 @@ function Quotation() {
   );
 }
 
-export default Quotation
+export default Quotation;
