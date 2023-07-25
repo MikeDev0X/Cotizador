@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from '../components/Layout';
+import ProtectedRoute from '../components/ProtectedRoute';
 import LogIn from '../pages/LogIn';
 import Quotation from '../pages/Quotation';
-import ProtectedRoute from '../components/ProtectedRoute'
 
 const AppRouter = () => {
   return (

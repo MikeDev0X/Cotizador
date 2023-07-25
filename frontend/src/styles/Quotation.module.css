@@ -68,6 +68,25 @@ fieldset.formGroup label.label {
     width: 7.5rem;
 }
 
+div.legendButtonContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* margin-bottom: 1rem; */
+}
+
+/* form.form:last-of-type fieldset.formGroup legend.legend {
+    display: inline-block;
+}
+
+form.form:last-of-type fieldset.formGroup {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+} */
+
 div.inputGroup {
     display: flex;
     flex-direction: row;
@@ -157,7 +176,7 @@ table.table thead th {
     text-align: left;
 }
 
-/* SUMMARY SECTION */
+/* QUOTATION SECTION */
 
 div.divider:nth-child(2) {
     display: flex;
@@ -189,43 +208,89 @@ div.divider:nth-child(2) {
 
 div.divider:nth-child(2) div.paper {
     padding: 1rem;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1rem; */
     background-color: white;
     border-radius: .75rem;
     height: 80%;
-    width: 70%;
+    width: 85%;
     border: 1px solid #e4e4e7;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+    /* box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1); */
     /* position: sticky;
     top: 0; */
+
+    /* word-wrap: pre-wrap;
+    white-space: normal;
+    overflow: hidden; */
+
+    display: grid;
+    grid-template-rows: 15% 45% 33% 7%;
 }
 
 div.paper Button {
     margin-top: auto;
 }
 
-/* form.form:last-of-type fieldset.formGroup legend.legend {
-    display: inline-block;
+header.paperHeader {
+    display: grid;
+    grid-template-columns: 25% 45% 1fr;
+    width: 100%;
+    gap: 0.5rem;
 }
 
-form.form:last-of-type fieldset.formGroup {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-} */
+header.paperHeader img.logo {
+    width: 3.5rem;
+    height: 3.5rem;
+}
 
-
-div.legendButtonContainer {
+header.paperHeader div.paperHeaderGroup {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    /* margin-bottom: 1rem; */
+}
+
+header.paperHeader div.paperHeaderGroup:first-of-type {
+    gap: 0.5rem;
+}
+
+header.paperHeader div.paperHeaderGroup:first-of-type span {
+    font-size: 0.4rem;
+    color: #18181B;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(2) span {
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: #18181B;
+    text-align: center;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(3) {
+    align-items: flex-end;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(3) div.folioAndDate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(3) span {
+    font-size: 0.65rem;
+    color: #18181B;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(3) span:first-of-type {
+    font-weight: 650;
+}
+
+header.paperHeader div.paperHeaderGroup:nth-child(3) span:first-of-type>span {
+    color: red;
 }
 
 button.button {
