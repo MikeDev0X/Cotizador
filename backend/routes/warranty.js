@@ -5,6 +5,8 @@ const warrantyController = require('../controller/warrantyController');
 
 router.get('/getWarranties/:idProduct', warrantyController.getWarranties);
 router.get('/getIdWarranty/:idProduct/:name', warrantyController.getIdWarranty);
+router.get('/getAllWarranties/', warrantyController.getAllWarranties);
+router.post('/addMultipleWarranties/', warrantyController.addMultipleWarranties);
 
 
 module.exports = router;
