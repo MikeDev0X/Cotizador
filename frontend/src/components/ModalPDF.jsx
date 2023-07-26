@@ -1,7 +1,9 @@
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from 'react';
 import styles from '../styles/Modal.module.css';
 
-const Modal = ({ title, children, open, onClose }) => {
+const ModalPDF = ({ title, children, open, onClose }) => {
   const dialog = useRef(null);
 
   useEffect(() => {
@@ -19,19 +21,16 @@ const Modal = ({ title, children, open, onClose }) => {
   return (
     <>
       <dialog ref={dialog}>
+        <FontAwesomeIcon className={styles.close} icon={faX} onClick={handleClose} />
         <header>
           <h1>{title}</h1>
         </header>
         <div className={styles.content}>
           {children}
         </div>
-        <footer className={styles.footer}>
-          <button onClick={handleClose}>Close</button>
-          <button className={styles.default} onClick={handleClose}>Close</button>
-        </footer>
       </dialog>
     </>
   );
 }
 
-export default Modal;
+export default ModalPDF;

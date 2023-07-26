@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
-import { urlLocal } from '../../constants';
-import Button from '../components/Buttons';
-/* import Modal from '../components/Modal'; */
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { urlLocal } from '../../constants';
 import Logo from '../assets/logo.png';
+import Button from "../components/Buttons";
+import ModalPDF from "../components/ModalPDF";
 import ModalProduct from '../components/ModalProduct';
+import PDFComponent from '../components/PDFComponent';
 import useTabTitle from '../hooks/useTabTitle';
-import styles from '../styles/Quotation.module.css';
-import { useEffect, useState, useRef } from 'react';
 import buttonStyles from '../styles/Buttons.module.css';
-
+import styles from '../styles/Quotation.module.css';
 
 function Quotation() {
   useTabTitle('Nueva cotización');
@@ -33,12 +34,20 @@ function Quotation() {
   const [warranties, setWarranties] = useState({}); //warranties list according to each product
   const [conceptsList, setConceptsList] = useState([]); //list of concepts
 
-  /* Billing info */
-  const[deliveryTime, setDeliveryTime] = useState(0);
-  const[validity, setValidity] = useState();
-  const[deliveryCost, setDeliveryCost] = useState(0);
-  const[observations, setObservations] = useState('');
+  /** @note Billing info */
+  const [deliveryTime, setDeliveryTime] = useState(0);
+  const [validity, setValidity] = useState();
+  const [deliveryCost, setDeliveryCost] = useState(0);
+  const [observations, setObservations] = useState('');
 
+  /* const [verPDF, setverPDF] = useState(false);
+
+  const handleVerPDF = () => {
+    setverPDF(!verPDF);
+  } */
+
+  /* const [modalProductOpen, setModalProductOpen] = useState(false); */
+  const [modalOpen, setModalPDFOpen] = useState(false);
   const dialog = useRef(null);
 
   const openModalProduct = () => {
@@ -49,6 +58,19 @@ function Quotation() {
     dialog.current.close();
   }
 
+  /* const closeModalProduct = () => {
+    setModalProductOpen(false);
+  } */
+
+  const openModalPDF = () => {
+    setModalPDFOpen(true);
+  }
+
+  const closeModalPDF = () => {
+    setModalPDFOpen(false);
+    /** @note refresh page */
+    window.location.reload(false);
+  }
 
   useEffect(() => {
     fetch(urlLocal + 'getProducts/', {
@@ -64,11 +86,11 @@ function Quotation() {
   }, [])
 
   const handleSave = (e) => {
-    if(e.target.value !== '---'){
+    if (e.target.value !== '---') {
       const found = products.find(element => element.name === e.target.value);
       setCurrent(found);
 
-      if(found.hasTransducer){
+      if (found.hasTransducer) {
         //fetch data if transducers associated
 
         fetch(urlLocal + 'getHasTransducer/' + found.idProduct, {
@@ -78,10 +100,10 @@ function Quotation() {
           .then((data) => {
 
             if (data) {
-              if(data[0].hasTransducer === 'YES')
+              if (data[0].hasTransducer === 'YES')
                 setHasTransducer(true);
 
-              else{
+              else {
                 setHasTransducer(false);
               }
             }
@@ -89,58 +111,59 @@ function Quotation() {
 
 
       }
-      else{
+      else {
         setHasTransducer(false);
-      } 
+      }
 
       setDescription(found.description);
       setPrice(found.singlePrice);
 
     }
-    else{
+    else {
       setCurrent({});
       setDescription('');
       setPrice(0);
       setQuantity(1);
       setHasTransducer(false);
     }
-    
+
+
     setDecoyTransducerState(!decoyTransducerState);
   }
 
-  const handleSaveTransducer = (e) =>{
+  const handleSaveTransducer = (e) => {
     setSelectedTransducer(e.target.value);
   }
 
-  useEffect(()=>{
-      fetch(urlLocal + 'getTransducersFrom/' + current.idProduct, {
-        method: "GET",
+  useEffect(() => {
+    fetch(urlLocal + 'getTransducersFrom/' + current.idProduct, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        if (data) {
+          setTransducers(data);
+        }
       })
-        .then((response) => response.json())
-        .then((data) => {
 
-          if (data) {
-            setTransducers(data);
-          }
-        })
-
-  },[decoyTransducerState])
+  }, [decoyTransducerState])
 
 
-  const saveName = (e) =>{
+  const saveName = (e) => {
     setName(e.target.value);
   }
 
-  const handleSaveWarranty = (e) =>{
+  const handleSaveWarranty = (e) => {
     setSelectedWarranty(e.target.value);
   }
 
-  const handleSaveQuantity = (e) =>{
+  const handleSaveQuantity = (e) => {
     setQuantity(e.target.value);
   }
 
 
-  const saveDeliveryCost = (e) =>{
+  const saveDeliveryCost = (e) => {
     setDeliveryCost(e.target.value);
   }
 
@@ -158,7 +181,9 @@ function Quotation() {
 
   useEffect(() => {
 
-    if(current!==undefined){
+    console.log(current !== undefined);
+
+    if (current !== undefined) {
       fetch(urlLocal + 'getWarranties/' + current.idProduct, {
         method: "GET",
       })
@@ -181,23 +206,24 @@ function Quotation() {
           }
         })
     }
-    
+
 
   }, [current])
 
-  const handleAddConcept = () =>{ // adds concept to state variable until quotation is done
+  const handleAddConcept = () => { // adds concept to state variable until quotation is done
 
     var newConcept = {};
     var currentWarranty = '';
 
-    if(selectedWarranty === '')
+    if (selectedWarranty === '')
       currentWarranty = 'Sin garantía';
     else
       currentWarranty = selectedWarranty;
 
 
-      console.log(currentWarranty);
+    console.log(currentWarranty);
 
+    if (selectedWarranty !== '') {
       fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + currentWarranty, {
         method: "GET",
       })
@@ -208,18 +234,18 @@ function Quotation() {
             let currentIdTransducer = -1;
 
             console.log(transducers);
-            if(hasTransducer){// if product has transducers available, search index
+            if (hasTransducer) {// if product has transducers available, search index
               const found = transducers.find(element => element.name === selectedTransducer);
               currentIdTransducer = found.idTransducer;
             }
-            else{ //since it doesn't have compatible transducers, selected transducer will be empty, so we search 'NONE' / 'Ninguno' directly
+            else { //since it doesn't have compatible transducers, selected transducer will be empty, so we search 'NONE' / 'Ninguno' directly
               const found = transducers.find(element => element.name === 'NONE');
               currentIdTransducer = found.idTransducer;
             }
 
             console.log(transducers);
 
-            newConcept = { 'idProduct': current.idProduct, 'idQuotation': 0, 'idWarranty': data[0].idWarranty, 'idTransducer' : currentIdTransducer, 'quantity': parseInt(quantity) }
+            newConcept = { 'idProduct': current.idProduct, 'idQuotation': 0, 'idWarranty': data[0].idWarranty, 'idTransducer': currentIdTransducer, 'quantity': parseInt(quantity) }
             console.log(newConcept);
             const tempList = conceptsList;
             tempList.push(newConcept);
@@ -231,12 +257,26 @@ function Quotation() {
             setQuantity(1); */
           }
         })
-    
-    console.log(conceptsList);
 
-    setSelectedWarranty('')
+      setSelectedWarranty('')
+    }
   }
 
+
+
+  const handleVerPDF = () => {
+    const pdfWindow = window.open('', '_blank');
+    pdfWindow.document.write('<html><head><title>PDF Document</title></head><body>');
+    pdfWindow.document.write('<div id="root"></div>');
+    pdfWindow.document.write('</body></html>');
+    pdfWindow.document.close();
+    console.log(conceptsList);
+
+  }
+
+  /* const refreshPage = () => {
+    window.location.reload(false);
+  } */
 
   return (
     <div className={styles.container}>
@@ -260,7 +300,7 @@ function Quotation() {
           <fieldset className={styles.formGroup}>
             <div className={styles.legendButtonContainer}>
               <legend className={styles.legend}>Productos registrados</legend>
-              <button type="button" className={`${styles.button} ${styles.default}`} onClick={()=>openModalProduct()}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
+              <button type="button" className={`${styles.button} ${styles.default}`} onClick={() => openModalProduct()}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
             </div>
 
             <div className={styles.inputGroup}>
@@ -270,12 +310,10 @@ function Quotation() {
                 {(products.length !== undefined) && products.map((element) =>
                   <option key={element.key} value={element.value}>{element.name}</option>
                 )}
-
-
               </select>
             </div>
 
-            {hasTransducer && 
+            {hasTransducer &&
               <div className={styles.inputGroup}>
                 <label htmlFor="transducers" className={styles.label}>Transductores</label>
                 <select name="transducers" id="transducers" className={styles.select} onChange={handleSaveTransducer}>
@@ -286,8 +324,6 @@ function Quotation() {
                 </select>
               </div>
             }
-            
-
 
             <div className={styles.inputGroup}>
               <label htmlFor="quantity" className={styles.label}>Cantidad</label>
@@ -301,7 +337,7 @@ function Quotation() {
 
             <div className={styles.inputGroup}>
               <label htmlFor="price" className={styles.label}>Precio unitario</label>
-              <input type="number" className={styles.input} id="price" name="price" placeholder={'$ '+price + ' MXN'} readOnly required />
+              <input type="number" className={styles.input} id="price" name="price" placeholder={'$ ' + price + ' MXN'} readOnly required />
             </div>
 
             <div className={styles.inputGroup}>
@@ -316,7 +352,6 @@ function Quotation() {
           </fieldset>
 
           <button type="button" className={buttonStyles.default} onClick={() => handleAddConcept()}>{'Agregar'}</button>
-
         </form>
 
         <form className={styles.form}>
@@ -342,12 +377,11 @@ function Quotation() {
               <label htmlFor="observations" className={styles.label}>Observaciones</label>
               <input type="text" className={styles.input} id="observations" name="observations" placeholder="" onChange={saveObservations} required />
             </div>
-
           </fieldset>
+
           {/* disabled button until fields are filled */}
           <Button type="submit" text="Continuar" variant="default" />
         </form>
-        {/* <Button type="button" text="Modal" variant="default" onClick={openModal} /> */}
       </div>
 
       <div className={styles.divider}>
@@ -372,14 +406,15 @@ function Quotation() {
           </header>
 
           <div className={styles.paperContent}>
-            <span>Leonardo Morales</span>
+            <span>Dr. Ariana Alejandra Rivera Cruz</span>
 
-            <table>
+            <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Cantidad</th>
-                  <th>Producto</th>
-                  <th>Precio</th>
+                  <th>CANTIDAD</th>
+                  <th>PRODUCTO</th>
+                  <th>PRECIO UNITARIO</th>
+                  <th>PRECIO TOTAL</th>
                 </tr>
               </thead>
               <tbody>
@@ -387,22 +422,25 @@ function Quotation() {
                   <td>1</td>
                   <td>Producto 1</td>
                   <td>$100,000 MX</td>
+                  <td>$100,000 MX</td>
                 </tr>
                 <tr>
                   <td>1</td>
                   <td>Producto 2</td>
+                  <td>$100,000 MX</td>
                   <td>$100,000 MX</td>
                 </tr>
                 <tr>
                   <td>1</td>
                   <td>Producto 3</td>
                   <td>$100,000 MX</td>
+                  <td>$100,000 MX</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <footer>
+          <footer className={styles.footer}>
             <div className={styles.footerGroup}>
               <div className={styles.footerGroupItem}>
                 <span>OBSERVACIONES:</span><p>Cotización Contado</p>
@@ -440,7 +478,21 @@ function Quotation() {
 
           </footer>
 
-          <Button type="button" text="Confirmar" variant="default" />
+          {/* <Button type="button" text="Confirmar" variant="default" /> */}
+
+          <button type="button" className={buttonStyles.default} onClick={openModalPDF}>Confirmar</button>
+          <ModalPDF title="Cotización creada exitosamente" open={modalOpen} onClose={closeModalPDF}>
+            <p>La cotización ha sido creada y guardada exitosamente.</p>
+            <footer className={styles.footer}>
+              {/* <button className={buttonStyles.default} onClick={closeModalPDF}>Ver cotizaciones</button> */}
+              <Link to="/cotizaciones" className={buttonStyles.default}>Ver cotizaciones</Link>
+              <button className={buttonStyles.default} onClick={handleVerPDF}>Ver PDF</button>
+              <PDFDownloadLink document={<PDFComponent />} fileName="cotizacion.pdf">
+                <button className={buttonStyles.default}>Descargar PDF</button>
+              </PDFDownloadLink>
+            </footer>
+
+          </ModalPDF>
         </div>
       </div>
     </div>

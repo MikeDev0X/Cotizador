@@ -10,6 +10,7 @@ button {
     border: none;
 }
 
+a.default,
 button.default {
     background-color: #18181B;
     color: #fff;

@@ -13,6 +13,17 @@ dialog:modal {
     /* text-wrap: balance; */
 }
 
+.close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #18181B;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
 form.content {
     display: flex;
     flex-direction: column;
@@ -118,7 +129,7 @@ textarea.textarea:focus {
     background-color: rgba(0, 0, 0, 0.3);
 } */
 
-footer {
+footer.footer {
     margin-top: 1rem;
     display: flex;
     flex-direction: row;
