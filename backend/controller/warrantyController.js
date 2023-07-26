@@ -34,3 +34,41 @@ module.exports.getIdWarranty = (req, res) =>{
     })
 
 }
+
+module.exports.getAllWarranties = (req, res) =>{
+    const query = `SELECT DISTINCT name FROM Warranty`;
+
+    conexion.query(query, (error, results)=>{
+        if (error)
+            res.send(error);
+        else {
+            res.json(results);
+        }
+
+    })
+
+}
+
+module.exports.addMultipleWarranties = (req, res) => {
+
+    const query = `INSERT INTO Warranty (idProduct, name) VALUES ?`;
+    const values = req.body;
+
+
+    const newArray = [];
+
+    console.log(values);
+    for (let d = 0; d < values.length; d++) { // create bidimensional array with data
+        newArray.push([values[d].idProduct, values[d].name]);
+    }
+
+    console.log(newArray);
+
+    conexion.query(query, [newArray], (error, results) => {
+        if (error)
+            res.send(error);
+        else
+            res.json(results);
+    })
+
+}

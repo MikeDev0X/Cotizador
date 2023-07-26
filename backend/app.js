@@ -5,6 +5,7 @@ const login = require('./routes/login');
 const product = require('./routes/product');
 const warranty = require('./routes/warranty');
 const quotation = require('./routes/quotation');
+const bodyParser = require("body-parser");
 
 const multer = require('multer');
 const cors =require('cors');
@@ -27,6 +28,9 @@ app.use('/', login);
 app.use('/', product);
 app.use('/', warranty);
 app.use('/', quotation);
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 
 //Función callback -> función que se ejecuta como respuesta a un evento o acción

@@ -1,13 +1,12 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
-import { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { urlLocal } from '../../constants';
 import Logo from '../assets/logo.png';
-import Button from '../components/Buttons';
-import ModalPDF from '../components/ModalPDF';
+import Button from "../components/Buttons";
+import ModalPDF from "../components/ModalPDF";
 import ModalProduct from '../components/ModalProduct';
 import PDFComponent from '../components/PDFComponent';
 import useTabTitle from '../hooks/useTabTitle';
@@ -23,8 +22,12 @@ function Quotation() {
   const [description, setDescription] = useState(''); // selected product description
   const [price, setPrice] = useState(0); //selected product single price
   const [selectedWarranty, setSelectedWarranty] = useState(''); //selected product current warranty
-  const [hasTransducer, setHasTransducer] = useState(false);
-  const [transducers, setTransducers] = useState({});
+
+  const [hasTransducer, setHasTransducer] = useState(false); //const to know if a product has a list of transducers associated
+  const [decoyTransducerState, setDecoyTransducerState] = useState(false); //
+
+  const [transducers, setTransducers] = useState({}); //list of transducers associated
+  const [selectedTransducer, setSelectedTransducer] = useState(''); //selected transducer
 
   const [products, setProducts] = useState({}); // products list
   const [current, setCurrent] = useState({}); //product's current object
@@ -43,16 +46,21 @@ function Quotation() {
     setverPDF(!verPDF);
   } */
 
-  const [modalProductOpen, setModalProductOpen] = useState(false);
+  /* const [modalProductOpen, setModalProductOpen] = useState(false); */
   const [modalOpen, setModalPDFOpen] = useState(false);
+  const dialog = useRef(null);
 
   const openModalProduct = () => {
-    setModalProductOpen(true);
+    dialog.current.showModal();
   }
 
-  const closeModalProduct = () => {
-    setModalProductOpen(false);
+  const closeModalProduct = (e) => {
+    dialog.current.close();
   }
+
+  /* const closeModalProduct = () => {
+    setModalProductOpen(false);
+  } */
 
   const openModalPDF = () => {
     setModalPDFOpen(true);
@@ -85,7 +93,7 @@ function Quotation() {
       if (found.hasTransducer) {
         //fetch data if transducers associated
 
-        fetch(urlLocal + 'getTransducers/' + found.idProduct, {
+        fetch(urlLocal + 'getHasTransducer/' + found.idProduct, {
           method: "GET",
         })
           .then((response) => response.json())
@@ -94,9 +102,10 @@ function Quotation() {
             if (data) {
               if (data[0].hasTransducer === 'YES')
                 setHasTransducer(true);
-              else
-                setHasTransducer(false);
 
+              else {
+                setHasTransducer(false);
+              }
             }
           })
 
@@ -118,6 +127,31 @@ function Quotation() {
       setHasTransducer(false);
     }
 
+
+    setDecoyTransducerState(!decoyTransducerState);
+  }
+
+  const handleSaveTransducer = (e) => {
+    setSelectedTransducer(e.target.value);
+  }
+
+  useEffect(() => {
+    fetch(urlLocal + 'getTransducersFrom/' + current.idProduct, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+
+        if (data) {
+          setTransducers(data);
+        }
+      })
+
+  }, [decoyTransducerState])
+
+
+  const saveName = (e) => {
+    setName(e.target.value);
   }
 
   const handleSaveWarranty = (e) => {
@@ -135,7 +169,6 @@ function Quotation() {
 
   const saveValidity = (e) => {
     setValidity(e.target.value);
-    console.log(e.target.value);
   }
 
   const saveDeliveryTime = (e) => {
@@ -145,8 +178,6 @@ function Quotation() {
   const saveObservations = (e) => {
     setDeliveryTime(e.target.value);
   }
-
-
 
   useEffect(() => {
 
@@ -182,17 +213,39 @@ function Quotation() {
   const handleAddConcept = () => { // adds concept to state variable until quotation is done
 
     var newConcept = {};
+    var currentWarranty = '';
+
+    if (selectedWarranty === '')
+      currentWarranty = 'Sin garantía';
+    else
+      currentWarranty = selectedWarranty;
+
+
+    console.log(currentWarranty);
 
     if (selectedWarranty !== '') {
-      fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + selectedWarranty, {
+      fetch(urlLocal + 'getIdWarranty/' + current.idProduct + '/' + currentWarranty, {
         method: "GET",
       })
         .then((response) => response.json())
         .then((data) => {
 
           if (data) {
+            let currentIdTransducer = -1;
 
-            newConcept = { 'idProduct': current.idProduct, 'idQuotation': idQuotation + 1, 'idWarranty': data[0].idWarranty, 'quantity': parseInt(quantity) }
+            console.log(transducers);
+            if (hasTransducer) {// if product has transducers available, search index
+              const found = transducers.find(element => element.name === selectedTransducer);
+              currentIdTransducer = found.idTransducer;
+            }
+            else { //since it doesn't have compatible transducers, selected transducer will be empty, so we search 'NONE' / 'Ninguno' directly
+              const found = transducers.find(element => element.name === 'NONE');
+              currentIdTransducer = found.idTransducer;
+            }
+
+            console.log(transducers);
+
+            newConcept = { 'idProduct': current.idProduct, 'idQuotation': 0, 'idWarranty': data[0].idWarranty, 'idTransducer': currentIdTransducer, 'quantity': parseInt(quantity) }
             console.log(newConcept);
             const tempList = conceptsList;
             tempList.push(newConcept);
@@ -204,8 +257,12 @@ function Quotation() {
             setQuantity(1); */
           }
         })
+
+      setSelectedWarranty('')
     }
   }
+
+
 
   const handleVerPDF = () => {
     const pdfWindow = window.open('', '_blank');
@@ -213,8 +270,8 @@ function Quotation() {
     pdfWindow.document.write('<div id="root"></div>');
     pdfWindow.document.write('</body></html>');
     pdfWindow.document.close();
+    console.log(conceptsList);
 
-    ReactDOM.render(<PDFViewer style={{ width: "100%", height: "100vh", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "100" }}><PDFComponent /></PDFViewer>, pdfWindow.document.getElementById('root'));
   }
 
   /* const refreshPage = () => {
@@ -224,25 +281,26 @@ function Quotation() {
   return (
     <div className={styles.container}>
       <div className={styles.divider}>
-        <header className={styles.header}>
-          <Link to="/cotizaciones" className={styles.link}>&larr;</Link>
+        <header>
           <h1>Nueva cotización</h1>
         </header>
+        <Link to="/" className={styles.link}>&larr; Volver</Link>
+
+        <dialog ref={dialog}>
+          <ModalProduct close={closeModalProduct} />
+        </dialog>
 
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
             <legend className={styles.legend}>Cliente</legend>
             <label htmlFor="name" className={styles.label}>Nombre</label>
-            <input type="text" className={styles.input} id="name" name="name" placeholder="Leonardo Morales" required autoFocus />
+            <input type="text" className={styles.input} id="name" name="name" placeholder="Leonardo Morales" value={name} onChange={saveName} required autoFocus />
           </fieldset>
 
           <fieldset className={styles.formGroup}>
             <div className={styles.legendButtonContainer}>
               <legend className={styles.legend}>Productos registrados</legend>
-
-              <button type="button" className={`${styles.button} ${styles.default}`} onClick={openModalProduct}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
-
-              <ModalProduct open={modalProductOpen} onClose={closeModalProduct} />
+              <button type="button" className={`${styles.button} ${styles.default}`} onClick={() => openModalProduct()}>Registrar nuevo producto<FontAwesomeIcon icon={faPlus} /></button>
             </div>
 
             <div className={styles.inputGroup}>
@@ -258,9 +316,9 @@ function Quotation() {
             {hasTransducer &&
               <div className={styles.inputGroup}>
                 <label htmlFor="transducers" className={styles.label}>Transductores</label>
-                <select name="transducers" id="transducers" className={styles.select} onChange={handleSave}>
+                <select name="transducers" id="transducers" className={styles.select} onChange={handleSaveTransducer}>
                   <option selected default>---</option>
-                  {(products.length !== undefined) && products.map((element) =>
+                  {(transducers.length !== undefined) && transducers.map((element) =>
                     <option key={element.key} value={element.value}>{element.name}</option>
                   )}
                 </select>
@@ -441,4 +499,4 @@ function Quotation() {
   );
 }
 
-export default Quotation
+export default Quotation;
