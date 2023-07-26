@@ -60,6 +60,8 @@ function Quotation() {
 
   const closeModalPDF = () => {
     setModalPDFOpen(false);
+    /** @note refresh page */
+    window.location.reload(false);
   }
 
   useEffect(() => {
@@ -215,13 +217,17 @@ function Quotation() {
     ReactDOM.render(<PDFViewer style={{ width: "100%", height: "100vh", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: "100" }}><PDFComponent /></PDFViewer>, pdfWindow.document.getElementById('root'));
   }
 
+  /* const refreshPage = () => {
+    window.location.reload(false);
+  } */
+
   return (
     <div className={styles.container}>
       <div className={styles.divider}>
-        <header>
+        <header className={styles.header}>
+          <Link to="/cotizaciones" className={styles.link}>&larr;</Link>
           <h1>Nueva cotización</h1>
         </header>
-        <Link to="/" className={styles.link}>&larr; Volver</Link>
 
         <form className={styles.form}>
           <fieldset className={styles.formGroup}>
@@ -421,6 +427,7 @@ function Quotation() {
             <p>La cotización ha sido creada y guardada exitosamente.</p>
             <footer className={styles.footer}>
               {/* <button className={buttonStyles.default} onClick={closeModalPDF}>Ver cotizaciones</button> */}
+              <Link to="/cotizaciones" className={buttonStyles.default}>Ver cotizaciones</Link>
               <button className={buttonStyles.default} onClick={handleVerPDF}>Ver PDF</button>
               <PDFDownloadLink document={<PDFComponent />} fileName="cotizacion.pdf">
                 <button className={buttonStyles.default}>Descargar PDF</button>

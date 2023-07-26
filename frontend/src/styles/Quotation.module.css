@@ -13,17 +13,25 @@ div.container {
     height: 85vh;
 } */
 
+header.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.8rem;
+}
+
 a.link {
     color: #18181B;
     text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 1.85rem;
+    font-weight: bold;
     transition: all 0.2s ease-in-out;
 }
 
-a.link:hover {
+/* a.link:hover {
     text-decoration: underline;
-}
+} */
 
 form.form {
     display: flex;
