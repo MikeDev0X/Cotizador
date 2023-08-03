@@ -12,8 +12,8 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<LogIn />} />
         <Route path="/" element={<Layout />} >
-          <Route path="cotizaciones" element={<ProtectedRoute> <Quotations /> </ProtectedRoute>} />
-          <Route path="nueva-cotizacion" element={<ProtectedRoute> <Quotation /> </ProtectedRoute>} />
+          <Route path="cotizaciones" element={<Quotations />} />
+          <Route path="nueva-cotizacion" element={<Quotation />} />
           <Route path="pdf-page" element={<ProtectedRoute> <PDFPage /> </ProtectedRoute>} />
         </Route>
       </Routes>
